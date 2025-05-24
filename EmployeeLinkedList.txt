@@ -1,0 +1,258 @@
+package Employee;
+
+public class Node {
+    private int data;  
+    private Node next;
+    
+    public Node() {
+        data = 0;
+        next = null;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int value) {  
+        this.data = value;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}
+**************************************************************************
+package Employee;
+
+public class Employee {
+    private int empId;  
+    private String ename;
+    private int salary;
+    
+    public Employee() {
+        this.empId = 100;
+        this.ename = "yash";
+        this.salary = 45000;
+    }
+    
+    public int getEmpId() {
+        return empId;
+    }
+    
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+    
+    public String getEname() {
+        return ename;
+    }
+    
+    public void setEname(String ename) { 
+        this.ename = ename;
+    }
+    
+    public int getSalary() {
+        return salary;
+    }
+    
+    public void setSalary(int value) {
+        salary = value;
+    }
+}
+**************************************************************************
+package Employee;
+
+import java.util.Scanner;
+
+public class SingleLinked_List {
+	private Node head;
+	private Scanner sc;
+
+	public SingleLinked_List() {
+		head = null;
+		sc = new Scanner(System.in);
+	}
+
+	public Node createNewNode() {
+		Node newnode = new Node();
+		System.out.println("Enter Data value:");
+		newnode.setData(sc.nextInt());
+		newnode.setNext(null);
+		return newnode;
+	}
+
+	public void addStart() {
+		Node newnode = createNewNode();
+		if (head == null) {
+			head = newnode;
+		} else {
+			newnode.setNext(head);
+			head = newnode;
+		}
+	}
+
+	public void deleteFromStart() {
+		if (head == null) {
+			System.out.println("\n\nLinkedList is Empty.....");
+		} else {
+			Node temp = head;
+			head = head.getNext();
+			temp.setNext(null);
+			System.out.println("Node is deleted");
+		}
+	}
+
+	public void addLast() {
+		Node newnode = createNewNode();
+		if (head == null) {
+			head = newnode;
+		} else {
+			Node temp = head;
+			while (temp.getNext() != null) {
+				temp = temp.getNext();
+			}
+			temp.setNext(newnode);
+		}
+	}
+
+	public void deleteFromEnd() {
+		if (head == null) {
+			System.out.println("\n\nLinkedList is Empty.....");
+		} else if (head.getNext() == null) {
+			head = null;
+			System.out.println("Node is deleted");
+		} else {
+			Node temp = head;
+			while (temp.getNext().getNext() != null) {
+				temp = temp.getNext();
+			}
+			temp.setNext(null);
+			System.out.println("Node is deleted");
+		}
+	}
+
+	public void addMid(int value) {
+		Node newnode = createNewNode();
+		if (head == null) {
+			head = newnode;
+		} else if (head.getNext() == null) {
+			if (head.getData() == value) {
+				head.setNext(newnode);
+			} else {
+				System.out.println("\tError::Node not exists....!!!!");
+			}
+		} else {
+			Node temp = head;
+			while (temp != null && temp.getData() != value) {
+				temp = temp.getNext();
+			}
+			if (temp != null) {
+				newnode.setNext(temp.getNext());
+				temp.setNext(newnode);
+			} else {
+				System.out.println("\tError::Node not found....!!!!");
+			}
+		}
+	}
+
+	public void deleteFromMid(int value) {
+		if (head == null) {
+			System.out.println("\n\nLinkedList is Empty.....");
+		} else if (head.getNext() == null) {
+			if (head.getData() == value) {
+				head = null;
+				System.out.println("Node is deleted");
+			} else {
+				System.out.println("\tError::Node not exists....!!!!");
+			}
+		} else {
+			Node temp = head;
+			Node prev = null;
+			while (temp != null && temp.getData() != value) {
+				prev = temp;
+				temp = temp.getNext();
+			}
+			if (temp != null) {
+				prev.setNext(temp.getNext());
+				temp.setNext(null);
+				System.out.println("Node is deleted");
+			} else {
+				System.out.println("\tError::Node not found....!!!!");
+			}
+		}
+	}
+
+	public void display() {
+		Node temp = head;
+		if (head == null) {
+			System.out.println("\n\nLinkedList is Empty.....");
+		} else {
+			while (temp != null) {
+				System.out.print(temp.getData() + "->");
+				temp = temp.getNext();
+			}
+			System.out.println("null");
+		}
+	}
+
+}
+**************************************************************************
+package Employee;
+
+import java.util.Scanner;
+
+public class ClientEmployee {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Enter the size: ");
+        int size = sc.nextInt();
+        
+        Employee[] emp = new Employee[size];
+        
+        for(int i = 0; i < size; i++) {
+            emp[i] = new Employee();
+            System.out.print("Enter the EmpId: ");
+            emp[i].setEmpId(sc.nextInt());
+            System.out.print("Enter the Ename: ");
+            emp[i].setEname(sc.next());
+            System.out.print("Enter the Salary: ");
+            emp[i].setSalary(sc.nextInt());
+        }
+        
+        System.out.println("Show employees data:");
+        for(int i = 0; i < size; i++) {
+            System.out.println("Employee Id: " + emp[i].getEmpId() + 
+                             " Employee name: " + emp[i].getEname() + 
+                             " Employee salary: " + emp[i].getSalary());
+        }
+        
+        // Sorting algorithm
+        for(int i = 0; i < size - 1; i++) {
+            int small = i;
+            for(int j = i + 1; j < size; j++) {
+                if(emp[j].getEmpId() < emp[small].getEmpId()) {
+                    small = j;
+                }
+            }
+            if(i != small) {
+                Employee temp = emp[i];
+                emp[i] = emp[small];
+                emp[small] = temp;
+            }
+        }
+        
+        System.out.println("Sorted employees data:");
+        for(int i = 0; i < size; i++) {
+            System.out.println("Employee Id: " + emp[i].getEmpId() + 
+                             " Employee name: " + emp[i].getEname() + 
+                             " Employee salary: " + emp[i].getSalary());
+        }
+        
+        sc.close();
+    }
+}
